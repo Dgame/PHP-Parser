@@ -36,13 +36,12 @@ class Foo
 
     }
 }
-
 ```
 
 Output:
 ```json
 {
-    "Bar": {
+    "class Bar": {
         "properties": [
             "public $var_abc",
             "public $var_xyz",
@@ -52,7 +51,7 @@ Output:
             "public foourz()"
         ]
     },
-    "Foo": {
+    "class Foo": {
         "properties": [
             "private $_foobar"
         ],
