@@ -1,0 +1,21 @@
+{
+    "Bar": {
+        "properties": [
+            "public $var_abc",
+            "public $var_xyz",
+            "public $var_foo"
+        ],
+        "function": [
+            "public foourz()"
+        ]
+    },
+    "Foo": {
+        "properties": [
+            "private $_foobar"
+        ],
+        "function": [
+            "public foobar($a)",
+            "public test()"
+        ]
+    }
+}
