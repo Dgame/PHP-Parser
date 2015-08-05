@@ -59,27 +59,50 @@ final class Parser
         $this->_scopes = $scopes;
     }
 
-    public function exportScopes(string $filename)
+    public function exportScopes(bool $pretty)
     {
         $output = [];
 
         foreach ($this->_scopes->getAll() as $scope) {
             if ($scope->type == T_CLASS || $scope->type == T_INTERFACE) {
-                $key = Pretty::Type($scope->type) . ' ' . $scope->name;
+                $key_name = Pretty::Type($scope->type);
 
-                $output[$key] = [];
+                if ($pretty) {
+                    $output[$key] = [];
+                }
 
                 foreach ($scope->variables as $var) {
-                    $output[$key]['properties'][] = $var->asString();
+                    if ($pretty) {
+                        $output[$key]['properties'][] = $var->asPrettyString();
+                    } else {
+                        $output[] = [
+                            $key_name    => $scope->name,
+                            'text'       => $var->id,
+                            'type'       => 'variable',
+                            'typehint'   => $var->type,
+                            'protection' => Pretty::Protection($var->protection),
+                            'state'      => Pretty::State($var->state),
+                        ];
+                    }
                 }
 
                 foreach ($scope->procedures as $proc) {
-                    $output[$key]['functions'][] = $proc->asString();
+                    if ($pretty) {
+                        $output[$key]['functions'][] = $proc->asPrettyString();
+                    } else {
+                        $output[] = [
+                            $key_name    => $scope->name,
+                            'text'       => $proc->asString(),
+                            'type'       => 'function',
+                            'protection' => Pretty::Protection($proc->protection),
+                            'state'      => Pretty::State($proc->state),
+                        ];
+                    }
                 }
             }
         }
 
-        file_put_contents($filename, json_encode($output, JSON_PRETTY_PRINT));
+        return json_encode($output, JSON_PRETTY_PRINT);
     }
 
     private function _buildVariable(Cursor $cursor)

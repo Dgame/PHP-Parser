@@ -26,7 +26,7 @@ final class Procedure
         $this->_parameters[$id] = $var;
     }
 
-    public function asString()
+    public function asPrettyString()
     {
         $output = [];
 
@@ -40,8 +40,13 @@ final class Procedure
             $output[] = $state;
         }
 
-        $output[] = $this->id;
+        $pretty = implode(' ', $output);
 
+        return $pretty . ' ' . $this->asString();
+    }
+
+    public function asString()
+    {
         $params = [];
 
         $c = count($this->parameters);
@@ -49,7 +54,9 @@ final class Procedure
 
         $params[] = '(';
         foreach ($this->parameters as $param) {
-            $params[] = $param->asString();
+            $type = $param->type ? $param->type . ' ' : null;
+
+            $params[] = $type . $param->id;
 
             if (($i + 1) < $c) {
                 $params[] = ',';
@@ -59,7 +66,7 @@ final class Procedure
         }
         $params[] = ')';
 
-        return implode(' ', $output) . implode('', $params);
+        return $this->id . implode('', $params);
     }
 
     use MagicGet;

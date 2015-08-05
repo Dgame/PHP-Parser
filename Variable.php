@@ -19,7 +19,7 @@ final class Variable
         $this->_id   = $id;
     }
 
-    public function asString()
+    public function asPrettyString()
     {
         $output = [];
 
