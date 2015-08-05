@@ -6,7 +6,7 @@ Basic usage: `php parse.php --file=<filename>`
 
 ## Example #1
 
-Command: `php parse.php --file=test-001.php -o=parse.json`
+Command: `php parse.php --file=test-001.php -o=parse.json --pretty`
 
 Input
 ```php
@@ -67,7 +67,7 @@ Output (in `parse.json`):
 
 #Example #2
 
-Command: `php parse.php --file=test-001.php -o=parse.json --pretty=false`
+Command: `php parse.php --file=test-001.php -o=parse.json` (without `--pretty`)
 
 Same Input
 
@@ -132,3 +132,13 @@ Output (in `parse.json`)
 ```
 
 Without `-o=<output>` the result will be printed to stdin.
+
+You can furthermore configurate the output by using these options:
+ - no-static
+ - no-abstract
+ - no-class
+ - no-trait
+ - no-interface
+ - no-public
+ - no-private
+ - no-protected
