@@ -78,7 +78,8 @@ Output (in `parse.json`)
     {
         "class": "Bar",
         "text": "$var_abc",
-        "type": "variable",
+        "snippet": "var_abc",
+        "type": "property",
         "typehint": null,
         "protection": "public",
         "state": null
@@ -86,7 +87,8 @@ Output (in `parse.json`)
     {
         "class": "Bar",
         "text": "$var_xyz",
-        "type": "variable",
+        "snippet": "var_xyz",
+        "type": "property",
         "typehint": null,
         "protection": "public",
         "state": null
@@ -94,14 +96,16 @@ Output (in `parse.json`)
     {
         "class": "Bar",
         "text": "$var_foo",
-        "type": "variable",
+        "snippet": "var_foo",
+        "type": "property",
         "typehint": null,
         "protection": "public",
         "state": null
     },
     {
         "class": "Bar",
-        "text": "foourz()",
+        "text": "foourz",
+        "snippet": "foourz()",
         "type": "function",
         "protection": "public",
         "state": null
@@ -109,21 +113,24 @@ Output (in `parse.json`)
     {
         "class": "Foo",
         "text": "$_foobar",
-        "type": "variable",
+        "snippet": "_foobar",
+        "type": "property",
         "typehint": null,
         "protection": "private",
         "state": null
     },
     {
         "class": "Foo",
-        "text": "foobar($a)",
+        "text": "foobar",
+        "snippet": "foobar($a)",
         "type": "function",
         "protection": "public",
         "state": null
     },
     {
         "class": "Foo",
-        "text": "test()",
+        "text": "test",
+        "snippet": "test($a,$b)",
         "type": "function",
         "protection": "public",
         "state": null
