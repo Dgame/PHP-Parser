@@ -2,6 +2,11 @@
 
 final class Pretty
 {
+    private static $Types = [
+        T_CLASS     => 'class',
+        T_INTERFACE => 'interface',
+    ];
+
     private static $Protections = [
         T_PUBLIC    => 'public',
         T_PRIVATE   => 'private',
@@ -12,6 +17,15 @@ final class Pretty
         T_STATIC   => 'static',
         T_ABSTRACT => 'abstract',
     ];
+
+    public static function Type(int $type)
+    {
+        if (array_key_exists($type, self::$Types)) {
+            return self::$Types[$type];
+        }
+
+        return null;
+    }
 
     public static function Protection(int $prot)
     {

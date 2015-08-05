@@ -1,5 +1,5 @@
 {
-    "Bar": {
+    "class Bar": {
         "properties": [
             "public $var_abc",
             "public $var_xyz",
@@ -9,7 +9,7 @@
             "public foourz()"
         ]
     },
-    "Foo": {
+    "class Foo": {
         "properties": [
             "private $_foobar"
         ],

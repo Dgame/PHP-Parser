@@ -9,5 +9,5 @@ if (!array_key_exists('file', $options)) {
 } else {
     $p = new Parser();
     $p->parse($options['file']);
-    $p->exportClassScopes('parse.json');
+    $p->exportScopes('parse.json');
 }

@@ -6,6 +6,7 @@ require_once 'basic_type_hint.php';
 require_once 'Tokenizer.php';
 require_once 'Cursor.php';
 require_once 'Scopes.php';
+require_once 'Pretty.php';
 
 require_once 'Variable.php';
 require_once 'Procedure.php';
@@ -25,6 +26,7 @@ final class Parser
         do {
             switch ($tok->type) {
                 case T_CLASS:
+                case T_INTERFACE:
                     $scopes->pushScope($tok->line, $tok->type);
                     $scopes->getCurrent()->name = $cursor->next()->id;
                     break;
@@ -56,20 +58,22 @@ final class Parser
         $this->_scopes = $scopes;
     }
 
-    public function exportClassScopes(string $filename)
+    public function exportScopes(string $filename)
     {
         $output = [];
 
         foreach ($this->_scopes->getAll() as $scope) {
-            if ($scope->type == T_CLASS) {
-                $output[$scope->name] = [];
+            if ($scope->type == T_CLASS || $scope->type == T_INTERFACE) {
+                $key = Pretty::Type($scope->type) . ' ' . $scope->name;
+
+                $output[$key] = [];
 
                 foreach ($scope->variables as $var) {
-                    $output[$scope->name]['properties'][] = $var->asString();
+                    $output[$key]['properties'][] = $var->asString();
                 }
 
                 foreach ($scope->procedures as $proc) {
-                    $output[$scope->name]['functions'][] = $proc->asString();
+                    $output[$key]['functions'][] = $proc->asString();
                 }
             }
         }
@@ -131,6 +135,11 @@ final class Parser
             }
 
             $tok = $cursor->next();
+        }
+
+        // implicit abstract?
+        if ($cursor->lookAhead()->type == T_SEMICOLON) {
+            $proc->protection = T_ABSTRACT;
         }
 
         return $proc;
