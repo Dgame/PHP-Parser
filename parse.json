@@ -1,21 +1,12 @@
 {
-    "class Bar": {
-        "properties": [
-            "public $var_abc",
-            "public $var_xyz",
-            "public $var_foo"
-        ],
+    "interface Foo": {
         "functions": [
-            "public foourz()"
+            "public abstract abc()"
         ]
     },
-    "class Foo": {
-        "properties": [
-            "private $_foobar"
-        ],
+    "class Bar": {
         "functions": [
-            "public foobar($a)",
-            "public test()"
+            "public abc()"
         ]
     }
 }

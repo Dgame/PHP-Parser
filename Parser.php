@@ -161,10 +161,10 @@ final class Parser
 
             $tok = $cursor->next();
         }
-
+        
         // implicit abstract?
         if ($cursor->lookAhead()->type == T_SEMICOLON) {
-            $proc->protection = T_ABSTRACT;
+            $proc->state = T_ABSTRACT;
         }
 
         return $proc;
