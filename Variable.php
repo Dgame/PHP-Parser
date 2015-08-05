@@ -28,6 +28,11 @@ final class Variable
             $output[] = $prot;
         }
 
+        $state = Pretty::State($this->state);
+        if ($state) {
+            $output[] = $state;
+        }
+
         if ($this->type) {
             $output[] = $this->type;
         }
