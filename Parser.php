@@ -65,7 +65,8 @@ final class Parser
 
         foreach ($this->_scopes->getAll() as $scope) {
             if ($scope->type == T_CLASS || $scope->type == T_INTERFACE) {
-                $key_name = Pretty::Type($scope->type);
+                $type = Pretty::Type($scope->type);
+                $key  = $type . ' ' . $scope->name;
 
                 if ($pretty) {
                     $output[$key] = [];
@@ -76,7 +77,7 @@ final class Parser
                         $output[$key]['properties'][] = $var->asPrettyString();
                     } else {
                         $output[] = [
-                            $key_name    => $scope->name,
+                            $type        => $scope->name,
                             'text'       => $var->id,
                             'type'       => 'variable',
                             'typehint'   => $var->type,
@@ -91,7 +92,7 @@ final class Parser
                         $output[$key]['functions'][] = $proc->asPrettyString();
                     } else {
                         $output[] = [
-                            $key_name    => $scope->name,
+                            $type        => $scope->name,
                             'text'       => $proc->asString(),
                             'type'       => 'function',
                             'protection' => Pretty::Protection($proc->protection),
