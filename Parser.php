@@ -226,7 +226,8 @@ final class Parser
             } else {
                 $output[] = [
                     $type        => $scope->name,
-                    'text'       => $proc->asString(),
+                    'text'       => $proc->id,
+                    'snippet'    => $proc->asString(),
                     'type'       => 'function',
                     'protection' => Pretty::Protection($proc->protection),
                     'state'      => Pretty::State($proc->state),
@@ -255,7 +256,8 @@ final class Parser
                 $output[] = [
                     $type        => $scope->name,
                     'text'       => $var->id,
-                    'type'       => 'variable',
+                    'snippet'    => $var->asProperty(),
+                    'type'       => 'property',
                     'typehint'   => $var->type,
                     'protection' => Pretty::Protection($var->protection),
                     'state'      => Pretty::State($var->state),

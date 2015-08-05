@@ -8,7 +8,7 @@ class Bar
 
     public function foourz()
     {
-
+        $this->var_abc = null;
     }
 }
 

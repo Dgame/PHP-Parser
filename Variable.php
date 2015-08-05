@@ -19,6 +19,11 @@ final class Variable
         $this->_id   = $id;
     }
 
+    public function asProperty()
+    {
+        return substr($this->id, 1); // $name -> name
+    }
+
     public function asPrettyString()
     {
         $output = [];
