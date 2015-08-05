@@ -136,9 +136,7 @@ Without `-o=<output>` the result will be printed to stdin.
 You can furthermore configurate the output by using these options:
  - no-static
  - no-abstract
- - no-class
  - no-trait
  - no-interface
- - no-public
  - no-private
  - no-protected
