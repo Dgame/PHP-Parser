@@ -165,7 +165,3 @@ final class Parser
         return $info;
     }
 }
-
-$p = new Parser();
-$p->parse('test.php');
-$p->exportClassScopes('parse.json');
