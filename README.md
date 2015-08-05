@@ -2,6 +2,8 @@
 
 Parses your php file and extract class, method/function and property informations.
 
+Usage: `php parse.php --file=<filename>`
+
 ## Example
 
 Input
