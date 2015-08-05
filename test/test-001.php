@@ -21,7 +21,7 @@ class Foo
 
     }
 
-    public function test()
+    public function test($a, $b)
     {
 
     }

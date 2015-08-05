@@ -49,24 +49,13 @@ final class Procedure
     {
         $params = [];
 
-        $c = count($this->parameters);
-        $i = 0;
-
-        $params[] = '(';
+        $params = [];
         foreach ($this->parameters as $param) {
             $type = $param->type ? $param->type . ' ' : null;
-
             $params[] = $type . $param->id;
-
-            if (($i + 1) < $c) {
-                $params[] = ',';
-            }
-
-            $i++;
         }
-        $params[] = ')';
 
-        return $this->id . implode('', $params);
+        return $this->id . '(' . implode(',', $params) . ')';
     }
 
     use MagicGet;
