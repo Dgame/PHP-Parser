@@ -16,7 +16,7 @@ final class Parser
 
     public function parse(string $filename)
     {
-        $scopes = new Scopes();
+        $scopes    = new Scopes();
         $tokenizer = new Tokenizer($filename);
         $cursor    = new Cursor($tokenizer->getTokens());
 
