@@ -31,6 +31,10 @@ define('T_AND', 22); // &
 define('T_OR', 23); // |
 define('T_XOR', 24); // ^
 
+if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+    define('T_TRAIT', 25);
+}
+
 define('UNKNOWN_TOKEN_TYPE', 0);
 define('UNKNOWN_TOKEN', token_name(UNKNOWN_TOKEN_TYPE));
 
@@ -88,7 +92,7 @@ final class Tokenizer
         if (!file_exists($filename)) {
             throw new Exception('File does not exists: ' . $filename);
         }
-        
+
         $content = file_get_contents($filename);
         $tokens  = token_get_all($content);
 

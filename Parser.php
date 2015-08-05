@@ -27,6 +27,7 @@ final class Parser
             switch ($tok->type) {
                 case T_CLASS:
                 case T_INTERFACE:
+                case T_TRAIT:
                     $scopes->pushScope($tok->line, $tok->type);
                     $scopes->getCurrent()->name = $cursor->next()->id;
                     break;

@@ -5,6 +5,7 @@ final class Pretty
     private static $Types = [
         T_CLASS     => 'class',
         T_INTERFACE => 'interface',
+        T_TRAIT     => 'trait',
     ];
 
     private static $Protections = [
