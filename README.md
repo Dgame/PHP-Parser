@@ -2,9 +2,11 @@
 
 Parses your php file and extract class, method/function and property informations.
 
-Usage: `php parse.php --file=<filename>`
+Basic usage: `php parse.php --file=<filename>`
 
-## Example
+## Example #1
+
+Command: `php parse.php --file=test-001.php -o=parse.json`
 
 Input
 ```php
@@ -38,7 +40,7 @@ class Foo
 }
 ```
 
-Output:
+Output (in `parse.json`):
 ```json
 {
     "class Bar": {
@@ -62,3 +64,71 @@ Output:
     }
 }
 ```
+
+#Example #2
+
+Command: `php parse.php --file=test-001.php -o=parse.json --pretty=false`
+
+Same Input
+
+Output (in `parse.json`)
+
+```json
+[
+    {
+        "class": "Bar",
+        "text": "$var_abc",
+        "type": "variable",
+        "typehint": null,
+        "protection": "public",
+        "state": null
+    },
+    {
+        "class": "Bar",
+        "text": "$var_xyz",
+        "type": "variable",
+        "typehint": null,
+        "protection": "public",
+        "state": null
+    },
+    {
+        "class": "Bar",
+        "text": "$var_foo",
+        "type": "variable",
+        "typehint": null,
+        "protection": "public",
+        "state": null
+    },
+    {
+        "class": "Bar",
+        "text": "foourz()",
+        "type": "function",
+        "protection": "public",
+        "state": null
+    },
+    {
+        "class": "Foo",
+        "text": "$_foobar",
+        "type": "variable",
+        "typehint": null,
+        "protection": "private",
+        "state": null
+    },
+    {
+        "class": "Foo",
+        "text": "foobar($a)",
+        "type": "function",
+        "protection": "public",
+        "state": null
+    },
+    {
+        "class": "Foo",
+        "text": "test()",
+        "type": "function",
+        "protection": "public",
+        "state": null
+    }
+]
+```
+
+Without `-o=<output>` the result will be printed to stdin.
