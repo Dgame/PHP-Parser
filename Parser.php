@@ -34,6 +34,7 @@ final class Parser
 
                 case T_FUNCTION:
                     $proc = $this->_buildProcedure($cursor);
+
                     $scopes->getCurrent()->addProcedure($proc);
                     break;
 
@@ -59,47 +60,25 @@ final class Parser
         $this->_scopes = $scopes;
     }
 
-    public function exportScopes(bool $pretty)
+    public function exportScopes(Options $options)
     {
         $output = [];
 
         foreach ($this->_scopes->getAll() as $scope) {
-            if ($scope->type == T_CLASS || $scope->type == T_INTERFACE) {
+            if (!$this->_approve($scope->type, $options)) {
+                continue;
+            }
+
+            if ($scope->name) {
                 $type = Pretty::Type($scope->type);
                 $key  = $type . ' ' . $scope->name;
 
-                if ($pretty) {
+                if ($options->pretty) {
                     $output[$key] = [];
                 }
 
-                foreach ($scope->variables as $var) {
-                    if ($pretty) {
-                        $output[$key]['properties'][] = $var->asPrettyString();
-                    } else {
-                        $output[] = [
-                            $type        => $scope->name,
-                            'text'       => $var->id,
-                            'type'       => 'variable',
-                            'typehint'   => $var->type,
-                            'protection' => Pretty::Protection($var->protection),
-                            'state'      => Pretty::State($var->state),
-                        ];
-                    }
-                }
-
-                foreach ($scope->procedures as $proc) {
-                    if ($pretty) {
-                        $output[$key]['functions'][] = $proc->asPrettyString();
-                    } else {
-                        $output[] = [
-                            $type        => $scope->name,
-                            'text'       => $proc->asString(),
-                            'type'       => 'function',
-                            'protection' => Pretty::Protection($proc->protection),
-                            'state'      => Pretty::State($proc->state),
-                        ];
-                    }
-                }
+                $this->_extractVariables($output, $scope, $options);
+                $this->_extractProcedures($output, $scope, $options);
             }
         }
 
@@ -112,7 +91,7 @@ final class Parser
         assert($tok->type == T_VARIABLE);
 
         $var  = new Variable($tok->line, $tok->id);
-        $info = $this->_extractInfo($cursor);
+        $info = $this->_infoFor($cursor);
 
         if (array_key_exists('state', $info)) {
             $var->state = (int) $info['state'];
@@ -130,7 +109,7 @@ final class Parser
         $tok = $cursor->getCurrent();
         assert($tok->type == T_FUNCTION);
 
-        $info = $this->_extractInfo($cursor);
+        $info = $this->_infoFor($cursor);
 
         $tok = $cursor->next();
 
@@ -161,7 +140,7 @@ final class Parser
 
             $tok = $cursor->next();
         }
-        
+
         // implicit abstract?
         if ($cursor->lookAhead()->type == T_SEMICOLON) {
             $proc->state = T_ABSTRACT;
@@ -170,7 +149,7 @@ final class Parser
         return $proc;
     }
 
-    private function _extractInfo(Cursor $cursor)
+    private function _infoFor(Cursor $cursor)
     {
         $cursor->pushPosition();
 
@@ -197,5 +176,91 @@ final class Parser
         $cursor->popPosition();
 
         return $info;
+    }
+
+    private function _approve(int $type, Options $options)
+    {
+        if ($type == T_INTERFACE && $options->noInterface) {
+            return false;
+        }
+
+        if ($type == T_TRAIT && $options->noTrait) {
+            return false;
+        }
+
+        if ($type == T_PRIVATE && $options->noPrivate) {
+            return false;
+        }
+
+        if ($type == T_PROTECTED && $options->noProtected) {
+            return false;
+        }
+
+        if ($type == T_STATIC && $options->noStatic) {
+            return false;
+        }
+
+        if ($type == T_ABSTRACT && $options->noAbstract) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function _extractProcedures(array &$output, Scope $scope, Options $options)
+    {
+        $type = Pretty::Type($scope->type);
+        $key  = $type . ' ' . $scope->name;
+
+        foreach ($scope->procedures as $proc) {
+            if (!$this->_approve($proc->protection, $options)) {
+                continue;
+            }
+
+            if (!$this->_approve($proc->state, $options)) {
+                continue;
+            }
+
+            if ($options->pretty) {
+                $output[$key]['functions'][] = $proc->asPrettyString();
+            } else {
+                $output[] = [
+                    $type        => $scope->name,
+                    'text'       => $proc->asString(),
+                    'type'       => 'function',
+                    'protection' => Pretty::Protection($proc->protection),
+                    'state'      => Pretty::State($proc->state),
+                ];
+            }
+        }
+    }
+
+    private function _extractVariables(array &$output, Scope $scope, Options $options)
+    {
+        $type = Pretty::Type($scope->type);
+        $key  = $type . ' ' . $scope->name;
+
+        foreach ($scope->variables as $var) {
+            if (!$this->_approve($var->protection, $options)) {
+                continue;
+            }
+
+            if (!$this->_approve($var->state, $options)) {
+                continue;
+            }
+
+            if ($options->pretty) {
+                $output[$key]['properties'][] = $var->asPrettyString();
+            } else {
+                $output[] = [
+                    $type        => $scope->name,
+                    'text'       => $var->id,
+                    'type'       => 'variable',
+                    'typehint'   => $var->type,
+                    'protection' => Pretty::Protection($var->protection),
+                    'state'      => Pretty::State($var->state),
+                ];
+            }
+        }
     }
 }

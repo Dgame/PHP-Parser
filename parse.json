@@ -1,12 +1,9 @@
-{
-    "interface Foo": {
-        "functions": [
-            "public abstract abc()"
-        ]
-    },
-    "class Bar": {
-        "functions": [
-            "public abc()"
-        ]
+[
+    {
+        "class": "Bar",
+        "text": "abc()",
+        "type": "function",
+        "protection": "public",
+        "state": null
     }
-}
+]
