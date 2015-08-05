@@ -1,38 +1,28 @@
 <?php
 
-class Bar {
-    /**
-    * @var string
-    */
+class Bar
+{
     public $var_abc = null;
-    /**
-    * @var string
-    */
     public $var_xyz = null;
-    /**
-    * @var string
-    */
     public $var_foo = null;
 
-    public function foourz() { }
+    public function foourz()
+    {
+
+    }
 }
 
-class Foo {
+class Foo
+{
     private $_foobar = null;
-    
-    /**
-    * @param $a bool
-    */
-    public function foobar($a) {
-        return new Bar();
+
+    public function foobar($a)
+    {
+
     }
 
-    /**
-    *
-    */
-    public function test() {
-        $arr = [];
+    public function test()
+    {
+
     }
 }
-
-$f = new Foo();

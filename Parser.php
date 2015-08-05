@@ -69,7 +69,7 @@ final class Parser
                 }
 
                 foreach ($scope->procedures as $proc) {
-                    $output[$scope->name]['function'][] = $proc->asString();
+                    $output[$scope->name]['functions'][] = $proc->asString();
                 }
             }
         }
